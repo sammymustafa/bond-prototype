@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/anaconda3/bin/python
 # coding: utf-8
 
 # Load functions
@@ -393,7 +393,7 @@ def create_and_send_email(output_text, fname):
     
     # Attach the border image
     border_cid = make_msgid(domain='example.com')[1:-1]  # Remove the <> around the ID
-    border_path = '/Users/sammymustafa/Desktop/prototype/run/src/images/border.png'
+    border_path = '/Users/sammymustafa/Desktop/bond-prototype/run/src/images/border.png'
     border_data = open(border_path, 'rb').read()
     border_html = MIMEImage(border_data, name=os.path.basename(border_path))
     border_html.add_header('Content-ID', f"<{border_cid}>")
@@ -401,7 +401,7 @@ def create_and_send_email(output_text, fname):
     
     # Attach the logo image
     logo_cid = make_msgid(domain='example.com')[1:-1]  # Remove the <> around the ID
-    logo_path = '/Users/sammymustafa/Desktop/prototype/run/src/images/logo.png'
+    logo_path = '/Users/sammymustafa/Desktop/bond-prototype/run/src/images/logo.png'
     logo_data = open(logo_path, 'rb').read()
     logo_html = MIMEImage(logo_data, name=os.path.basename(logo_path))
     logo_html.add_header('Content-ID', f"<{logo_cid}>")
