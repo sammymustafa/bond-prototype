@@ -1,0 +1,98 @@
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+
+body {
+  margin: 0;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  background-image: url('../images/logo.png');
+  background-size: 40%;
+  background-position: right 10% top 80%;
+  background-repeat: no-repeat;
+  opacity: 0.2; /* This will only affect the background image, not the text or other elements */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1; /* This places the pseudo-element behind the content of the body */
+}
+
+
+.center-text {
+  border: 5px;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%; /* Take the full width to center content */
+}
+
+.button-container button {
+  font-size: 1.2em; /* Makes text larger */
+  padding: 10px 20px; /* Adjust padding to make the button larger */
+  background-color: #8AC1CC; /* Replace with your chosen hex color */
+  color: #fff; /* Adjust text color as needed */
+  border: none; /* Removes the default border */
+  cursor: pointer; /* Changes the cursor to a pointer on hover */
+  border-radius: 5px; /* Optionally rounds the corners of the button */
+}
+
+.button-container button:disabled {
+  background-color: #60bc5c; /* Your desired green hex code */
+  /* Other styles for the disabled state, such as changing the cursor, etc. */
+  cursor: not-allowed;
+}
+
+#holder {
+  display: none;
+}
+
+.spinner {
+  margin: 100px auto 0;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #000;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}

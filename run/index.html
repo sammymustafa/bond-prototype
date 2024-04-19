@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <br>
+    <title>Clinical Trial Patient Recruiting</title>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+
+    <!-- Simple Grid CSS: https://simplegrid.io/ -->
+    <link rel='stylesheet' type="text/css" href="./src/css/simple-grid.css" />
+
+    <!-- Relax CSS: https://ziyadsk.github.io/relaxCSS/ 
+    <link rel='stylesheet' type="text/css" href="./src/css/relaxCSS.css" /> -->
+
+    <!-- Custom CSS -->
+    <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'/>
+
+    <style>
+
+        img {
+            opacity: 0.2;
+        }
+        .permissions-list {
+            list-style: none;
+            padding: 0;
+        }
+        .permissions-list li {
+            padding-left: 3em;
+            position: relative;
+        }
+        .permissions-list li::before {
+            content: '✓';
+            color: green;
+            position: absolute;
+            left: 25px;
+            top: -2px;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 0.5em;
+        }
+        th5 {
+            font-size: 0.8em;
+        }
+    </style>
+
+    <!--
+        Temporarily disable cerner-smart-embeddable-lib
+        <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
+    -->
+
+</head>
+
+<body>
+    <div id='errors'>
+    </div>
+
+    <div id="loading" class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+
+    <div id='holder' class="container text-container">
+        <div class="row center-text">
+            <div class="col-12">
+                <h1>Consent for Clinical Trial Matching</h1>
+            </div>
+        </div>
+
+
+        <div class="col-12">
+            <h3>Bond is requesting permission to:</h3>
+            <ul class="permissions-list">
+                <li>Access your electronic health record (EHR)</li>
+                <li>Match you with relevant clinical trials based on your profile via biweekly emails</li>
+            </ul>
+            <th5>Disclosure: You can withdraw from Bond's services at any point.</th5>
+            <br>
+            <br>
+            <div class="button-container">
+                <button id="consent-button" type="button" onclick="buttonClicked();">I consent</button>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="center-text col-12 style=padding: 10px;">
+            <h2 style="padding-bottom: 2px;">Sample Trial Matching Email:</h2>
+            </div>
+            <div class="col-12 style=padding: 10px;">
+                <th style="padding-bottom: 1px;">The clinical studies below best fit your patient profile and matched your:</p>
+                <ul>
+                  <li>Reported diagnosis of Osteoarthritis</li>
+                  <li>Age</li>
+                  <li>Gender identity</li>
+                  <li>State: Located in Oklahoma</li>
+                  <li>Country: Located in the USA</li>
+                </ul>
+                <div style = "padding-top: 9px">
+                <li>Study: TAR 2 Weeks vs 6 Weeks Post-Operative Weight-Bearing (<a href="https://clinicaltrials.gov/study/NCT04709861">https://clinicaltrials.gov/study/NCT04709861</a>)</li>
+                </div>
+                <li>Study: Post Approval Study2: Hintermann Series H3 Total Ankle Replacement System (<a href="https://clinicaltrials.gov/study/NCT04770870">https://clinicaltrials.gov/study/NCT04770870</a>)</li>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Required JS files to enable this page to embed within an MPage -->
+    <!--
+        Temporarily disable cerner-smart-embeddable-lib
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
+        <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
+    -->
+    <!-- Application-level javascript-->
+    <script src='./src/js/example-smart-app.js'></script>
+
+    <!-- FHIR Client JS Library -->
+    <script src='./lib/js/fhir-client-v0.1.12.js'></script>
+
+    <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
+    <!-- https://github.com/cerner/fhir-client-cerner-additions -->
+    <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script>
+        extractData().then(
+
+            //Display Patient Demographics and Observations if extractData was success
+            function (p) {
+                drawVisualization(p);
+            },
+
+            //Display 'Failed to call FHIR Service' if extractData failed
+            function () {
+                $('#loading').hide();
+                $('#errors').html('<p> Failed to call FHIR Service </p>');
+            }
+        );
+    </script>
+
+    <script>
+        function buttonClicked() {
+            var consentButton = document.getElementById('consent-button');
+            consentButton.innerText = 'Thank you!'; // Change the button text
+            consentButton.style.backgroundColor = '#60bc5c'; 
+            consentButton.disabled = true; // Disable the button
+            
+            // Call extractData() and then downloadPatientData() when the consent button is clicked
+            extractData().then(function (p) {
+                drawVisualization(p);
+                // Now call downloadPatientData
+                downloadPatientData(p);
+            }, function () {
+                $('#loading').hide();
+                $('#errors').html('<p> Failed to call FHIR Service </p>');
+            });
+        }
+    </script>
+
+</body>
+
+</html>
